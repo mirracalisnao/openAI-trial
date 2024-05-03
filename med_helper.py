@@ -6,9 +6,7 @@ from openai import AsyncOpenAI
 from openai import OpenAI
 import time
 
-client = AsyncOpenAI(
-    api_key=os.getenv("API_key")
-    )
+client = AsyncOpenAI(api_key=os.getenv("API_key"))
 
 context = """This app assists users in finding information about specific medications 
 based on their symptoms. Please follow the prompts to proceed."""
@@ -66,7 +64,7 @@ async def display_symptoms_form1():
     form1.write(text)
     
     # Prompt user for course inp
-    symptoms = form1.text_input("Enter your symptoms (comma-separated):", key="symptoms")
+    symptoms = form1.text_input("Enter your symptoms (comma-separated):", key="symptoms", value=st.session_state["symptoms"] or "")
     # Display possible medications
     possible_medications = [
         "Paracetamol",
