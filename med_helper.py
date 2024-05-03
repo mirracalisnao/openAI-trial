@@ -107,6 +107,10 @@ async def display_information3():
     # Progress bar reaches 100% after the loop completes
     form3.success("AI research co-pilot task completed!") 
 
+    restart = form3.form_submit_button("Restart")  # Add the submit button
+    if restart:
+        st.experimental_rerun()  # Reload the app
+
 # Run the app
 if __name__ == "__main__":
     import asyncio
