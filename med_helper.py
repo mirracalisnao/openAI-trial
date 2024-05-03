@@ -88,13 +88,13 @@ async def display_symptoms_form1():
             st.session_state["symptoms"] = symptoms
             st.session_state["selected_medication"] = selected_medication 
             st.session_state["other_medication"] = other_medication
+            st.session_state["current_form"] = 2  # Move to the next form
             # Proceed to next form or processing logic
         else:
             form1.warning("Please enter your symptoms.")     
 
 
 async def display_information2():
-    st.session_state["current_form"] = 2
     form2 = st.form("Medication Information")
     selected_medication = st.session_state["selected_medication"]
     symptoms = st.session_state["symptoms"]
@@ -119,6 +119,10 @@ async def display_information2():
             form2.success("AI research co-pilot task completed!") 
             form2.write("Would you like to ask another question?")  
             form2.write("If yes, please refresh the browser.")  
+
+            # Clear the form
+            st.session_state["current_form"] = 1
+            st.experimental_rerun()
         else:
             form2.error("Please enter a prompt.")
             
