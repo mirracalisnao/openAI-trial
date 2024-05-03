@@ -1,10 +1,10 @@
-# import streamlit as st
-# import openai
-# import os
+import streamlit as st
+import openai
+import os
 
-# from openai import AsyncOpenAI
-# from openai import OpenAI
-# import time
+from openai import AsyncOpenAI
+from openai import OpenAI
+import time
 
 # client = AsyncOpenAI(
 #     api_key=os.getenv("API_key")
@@ -123,10 +123,6 @@
 #     asyncio.run(app())
 
 
-import streamlit as st
-import openai
-import os
-
 openai.api_key = os.getenv("API_key")
 
 context = """This app assists users in finding information about specific medications 
@@ -201,6 +197,7 @@ async def display_symptoms_form1():
             if possible_medications:
                 st.session_state["possible_medications"] = possible_medications
             st.session_state["current_form"] = 2
+            st.experimental_rerun()
         else:
             form1.warning("Please enter your symptoms.")       
 
@@ -222,7 +219,7 @@ async def display_medication_form2():
     if submit2:
         st.session_state["selected_option"] = selected_medication
         st.session_state["current_form"] = 3
-        display_information3()
+        st.experimental_rerun()
 
 def display_information3():
     form3 = st.form("Medication Information")
@@ -238,5 +235,4 @@ def display_information3():
 
 # Run the app
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(app())
+    app()
