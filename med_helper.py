@@ -55,6 +55,7 @@ async def display_symptoms_form1():
     
     # Display possible medications
     possible_medications = [
+        "None"
         "Paracetamol",
         "Ibuprofen",
         "Aspirin",
@@ -65,7 +66,6 @@ async def display_symptoms_form1():
         "Omeprazole",
         "Loperamide",
         "Simethicone",
-        "Other (Specify)"
     ]
     selected_medication = form1.selectbox("Select a possible medication:", options=possible_medications)
 
