@@ -69,17 +69,34 @@ async def display_symptoms_form1():
     
     # Prompt user for course inp
     symptoms = form1.text_input("Enter your symptoms (comma-separated):", key="symptoms")
-    
-    submit1 = form1.form_submit_button("Submit")
+    # Display possible medications
+    possible_medications = [
+        "Paracetamol",
+        "Ibuprofen",
+        "Aspirin",
+        "Cetirizine",
+        "Loratadine",
+        "Diphenhydramine",
+        "Ranitidine",
+        "Omeprazole",
+        "Loperamide",
+        "Simethicone"
+    ]
+    selected_medication = form1.selectbox("Select a possible medication:", options=possible_medications)
 
+    # Allow user to input other possible medications
+    other_medication = form1.text_input("Input other possible medications (comma-separated):")
+
+    submit1 = form1.form_submit_button("Medication Information")
     if submit1:
         if symptoms:
-            if "symptoms" not in st.session_state:
-                st.session_state["symptoms"] = symptoms
-            st.session_state["current_form"] = 2
-            await display_medication_form2()
+            st.session_state["symptoms"] = symptoms
+            st.session_state["selected_medication"] = selected_medication 
+        elif other_medication:
+            st.session_state["other_medication"] = other_medication
+            # Proceed to next form or processing logic
         else:
-            form1.warning("Please enter your symptoms.")       
+            form1.warning("Please enter your symptoms.")     
 
 
 async def display_medication_form2():
