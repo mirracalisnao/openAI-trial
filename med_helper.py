@@ -106,8 +106,11 @@ async def display_information3():
         time.sleep(0.01)
     # Progress bar reaches 100% after the loop completes
     form3.success("AI research co-pilot task completed!") 
-    form3.write("Would you like to ask another question?")  
-    form3.write("If yes, please refresh the browser.")  
+
+    submit3 = form3.form_submit_button("Submit")  # Add the submit button
+    if submit3:
+        form3.write("Would you like to ask another question?")  
+        form3.write("If yes, please refresh the browser.") 
 
 # Run the app
 if __name__ == "__main__":
