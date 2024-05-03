@@ -81,7 +81,6 @@ async def display_symptoms_form1():
         "Simethicone"
     ]
     selected_medication = form1.selectbox("Select a possible medication:", options=possible_medications)
-
     # Allow user to input other possible medications
     other_medication = form1.text_input("Input other possible medications (comma-separated):")
 
@@ -90,7 +89,6 @@ async def display_symptoms_form1():
         if symptoms:
             st.session_state["symptoms"] = symptoms
             st.session_state["selected_medication"] = selected_medication 
-        elif other_medication:
             st.session_state["other_medication"] = other_medication
             # Proceed to next form or processing logic
         else:
