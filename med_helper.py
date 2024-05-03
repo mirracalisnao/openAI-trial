@@ -47,7 +47,7 @@ async def display_symptoms_form1():
     form1.text(text)
 
     form1.image("med_ai.png", caption="Medication Information App", use_column_width=True)
-    text = """An AI powered research co-pilot designed to assist students in finding research problems for their undergraduate thesis."""
+    text = """An AI powered research co-pilot designed to person about the medicine they want to take based on the symptoms they experience."""
     form1.write(text)
     
     # Prompt user for symptoms
