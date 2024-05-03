@@ -71,7 +71,6 @@ async def display_symptoms_form1():
     symptoms = form1.text_input("Enter your symptoms (comma-separated):", key="symptoms")
     
     submit1 = form1.form_submit_button("Submit")
-
     if submit1:
         if symptoms:
             if "symptoms" not in st.session_state:
@@ -89,10 +88,10 @@ async def display_medication_form2():
     prompt = f"What are your symptoms? \n Based on your symptoms ({symptoms}), here are some medication options:"
     medications = await generate_response(prompt, context)
     options = await split_comma_separated_string(medications)
-    selected_option = form2.selectbox(
-        label="Choose a medication:",
-        options=options,    
-    )
+    # selected_option = form2.selectbox(
+    #     label="Choose a medication:",
+    #     options=options,    
+    # )
         
     submit2 = form2.form_submit_button("Get Information")
     
