@@ -80,14 +80,12 @@ async def display_symptoms_form1():
     ]
     selected_medication = form1.selectbox("Select a possible medication:", options=possible_medications)
     # Allow user to input other possible medications
-    other_medication = form1.text_input("Input other possible medications (comma-separated):")
 
     submit1 = form1.form_submit_button("Medication Information")
     if submit1:
         if symptoms:
             st.session_state["symptoms"] = symptoms
             st.session_state["selected_medication"] = selected_medication 
-            st.session_state["other_medication"] = other_medication
             st.session_state["current_form"] = 2  # Move to the next form
             # Proceed to next form or processing logic
         else:
@@ -102,7 +100,7 @@ async def display_information2():
     
     submit2 = form2.form_submit_button("Medication Information")
     if submit2:
-        question = f"Provide information about the medication {symptoms},  and how the medicine will work based on the symptoms {selected_medication} including indications, contraindications, side effects, and nursing considerations."
+        question = f"Provide information about the medication {symptoms},  and how the medicine will work based on the symptoms {selected_medication} including indications, contraindications, side effects, and usage."
         if question:
             progress_bar = form2.progress(0, text="The AI  co-pilot is processing the request, please wait...")
             response = await generate_response(question, context)
