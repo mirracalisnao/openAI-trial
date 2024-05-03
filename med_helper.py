@@ -92,7 +92,7 @@ async def display_information3():
     form3.write(f"Symptoms: {symptoms}")
     form3.write(f"Selected Medication: {selected_medication}")
     
-    question = f"Provide information about the medication {selected_medication}, including indications, contraindications, side effects, and nursing considerations."
+    question = f"Provide information about the medication {selected_medication}, including indications, contraindications, side effects, and usage of the medication."
     progress_bar = form3.progress(0, text="The AI co-pilot is processing the request, please wait...")
     response = await generate_response(question, context)
     form3.write("Medication Information:")
@@ -107,10 +107,9 @@ async def display_information3():
     # Progress bar reaches 100% after the loop completes
     form3.success("AI research co-pilot task completed!") 
 
-    submit3 = form3.form_submit_button("Submit")  # Add the submit button
-    if submit3:
-        form3.write("Would you like to ask another question?")  
-        form3.write("If yes, please refresh the browser.") 
+    done = form3.form_submit_button("Done")  # Add the submit button
+    if done:
+        st.session_state["current_form"] = 1  # Return to the main screen
 
 # Run the app
 if __name__ == "__main__":
