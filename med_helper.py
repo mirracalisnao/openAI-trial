@@ -98,20 +98,20 @@ async def display_symptoms_form1():
 
 
 async def display_information2():
-    st.session_state["current_form"] = 3
-    form3 = st.form("Medication Information")
+    st.session_state["current_form"] = 2
+    form2 = st.form("Medication Information")
     selected_medication = st.session_state["selected_medication"]
     symptoms = st.session_state["symptoms"]
     
     
-    submit3 = form3.form_submit_button("Medication Information")
-    if submit3:
+    submit2 = form2.form_submit_button("Medication Information")
+    if submit2:
         question = f"Provide information about the medication {symptoms},  and how the medicine will work based on the symptoms {selected_medication} including indications, contraindications, side effects, and nursing considerations."
         if question:
-            progress_bar = form3.progress(0, text="The AI  co-pilot is processing the request, please wait...")
+            progress_bar = form2.progress(0, text="The AI  co-pilot is processing the request, please wait...")
             response = await generate_response(question, context)
-            form3.write("Response:")
-            form3.write(response)
+            form2.write("Response:")
+            form2.write(response)
 
             # update the progress bar
             for i in range(100):
@@ -120,11 +120,11 @@ async def display_information2():
                 # Simulate some time-consuming task (e.g., sleep)
                 time.sleep(0.01)
             # Progress bar reaches 100% after the loop completes
-            form3.success("AI research co-pilot task completed!") 
-            form3.write("Would you like to ask another question?")  
-            form3.write("If yes, please refresh the browser.")  
+            form2.success("AI research co-pilot task completed!") 
+            form2.write("Would you like to ask another question?")  
+            form2.write("If yes, please refresh the browser.")  
         else:
-            form3.error("Please enter a prompt.")
+            form2.error("Please enter a prompt.")
             
 
 
