@@ -39,11 +39,8 @@ async def app():
     if "symptoms" not in st.session_state:
         st.session_state["symptoms"] = None
     
-    if "selected_option" not in st.session_state:
-        st.session_state["selected_option"] = None
-    
-    if "possible_medications" not in st.session_state:
-        st.session_state["possible_medications"] = None
+    if "selected_medication" not in st.session_state:
+        st.session_state["selected_medication"] = None
         
 
     # Display the appropriate form based on the current form state
@@ -72,57 +69,57 @@ async def display_symptoms_form1():
     
     # Prompt user for course inp
     symptoms = form1.text_input("Enter your symptoms (comma-separated):", key="symptoms")
-    possible_medications = form1.text_input("Enter possible medications (comma-separated):", key="possible_medications")
     
     submit1 = form1.form_submit_button("Submit")
+
     if submit1:
         if symptoms:
-            st.session_state["symptoms"] = symptoms
-            if possible_medications:
-                st.session_state["possible_medications"] = possible_medications
+            if "symptoms" not in st.session_state:
+                st.session_state["symptoms"] = symptoms
             st.session_state["current_form"] = 2
+            await display_medication_form2()
         else:
             form1.warning("Please enter your symptoms.")       
 
-#Error starts here
+
 async def display_medication_form2():
     symptoms = st.session_state["symptoms"]
-    possible_medications = st.session_state["possible_medications"]
     st.session_state["current_form"] = 2
     form2 = st.form("Medication Selection")
-    prompt = f"What are your symptoms? \n Based on your symptoms ({symptoms}) and possible medications ({possible_medications}), here are some medication options:"
+    prompt = f"What are your symptoms? \n Based on your symptoms ({symptoms}), here are some medication options:"
     medications = await generate_response(prompt, context)
-    options = await split_comma_separated_string(medications)
+    medication_list = await split_comma_separated_string(medications)
     selected_medication = form2.selectbox(
         label="Choose a medication:",
-        options=options,    
+        options=medication_list,    
     )
         
-    # submit2 = form2.form_submit_button("Get Information")
+    submit2 = form2.form_submit_button("Get Information")
     
-    # if submit2:
-    #     st.session_state["selected_medication"] = options
-    #     await display_information3()
+    if submit2:
+        st.session_state["selected_medication"] = selected_medication
+        await display_information3()
 
 async def display_information3():
     st.session_state["current_form"] = 3
     form3 = st.form("Medication Information")
-    selected_option = st.session_state["selected_medication"]
+    selected_medication = st.session_state["selected_medication"]
     symptoms = st.session_state["symptoms"]
     
-    # # Create the combobox (selectbox) with a descriptive label
-    # selected_option = form3.selectbox(
-    #     label="Choose the Medicine:",
-    #     options=selected_medication,    
-    # )
+    # Create the combobox (selectbox) with a descriptive label
+    selected_medication = form3.selectbox(
+        label="Choose the Medicine:",
+        options=selected_medication,    
+    )
 
+    
     submit3 = form3.form_submit_button("Medication Information")
     if submit3:
-        question = f"For the symptoms {symptoms} and the research area {selected_option}, give me 3 research problems.  Provide the title, abstract and research objectives for each research problem."
+        question = f"For the symptoms {symptoms} and the research area {selected_medication}, give me 3 research problems.  Provide the title, abstract and research objectives for each research problem."
         if question:
-            progress_bar = form3.progress(0, text="The AI co-pilot is processing the request, please wait...")
+            progress_bar = form3.progress(0, text="The AI  co-pilot is processing the request, please wait...")
             response = await generate_response(question, context)
-            form3.write("Medication Information:")
+            form3.write("Response:")
             form3.write(response)
 
             # update the progress bar
@@ -133,11 +130,22 @@ async def display_information3():
                 time.sleep(0.01)
             # Progress bar reaches 100% after the loop completes
             form3.success("AI research co-pilot task completed!") 
-            form3.write("Would you like to input another symptoms?")  
+            form3.write("Would you like to ask another question?")  
             form3.write("If yes, please refresh the browser.")  
         else:
             form3.error("Please enter a prompt.")
             
+            
+    question = f"Provide information about the medication {selected_medication}, including indications, contraindications, side effects, and nursing considerations."
+    progress_bar = form3.progress(0, text="Processing your request, please wait...")
+    response = await generate_response(question, context)
+    form3.write("Medication Information:")
+    form3.write(response)
+
+    for i in range(100):
+        progress_bar.progress(i + 1)
+        time.sleep(0.01)
+    form3.success("Information retrieved successfully!") 
 
 # Run the app
 if __name__ == "__main__":
