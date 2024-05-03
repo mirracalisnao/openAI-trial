@@ -1,9 +1,10 @@
 import streamlit as st
 import openai
 import os
-import asyncio
 
 from openai import AsyncOpenAI
+from openai import OpenAI
+import time
 
 client = AsyncOpenAI(
     api_key=os.getenv("API_key")
@@ -40,9 +41,7 @@ async def app():
     
     if "selected_medication" not in st.session_state:
         st.session_state["selected_medication"] = None
-
-    if "other_medication" not in st.session_state:
-        st.session_state["other_medication"] = None
+        
 
     # Display the appropriate form based on the current form state
     if st.session_state["current_form"] == 1:
@@ -91,42 +90,45 @@ async def display_symptoms_form1():
         if symptoms:
             st.session_state["symptoms"] = symptoms
             st.session_state["selected_medication"] = selected_medication 
-            # Proceed to next form or processing logic
-            st.session_state["current_form"] = 2
         elif other_medication:
             st.session_state["other_medication"] = other_medication
             # Proceed to next form or processing logic
-            st.session_state["current_form"] = 2
         else:
             form1.warning("Please enter your symptoms.")     
 
-async def display_information2():
-    form2 = st.form("Medication Information")
-    symptoms = st.session_state["symptoms"]
-    selected_medication = st.session_state["selected_medication"]
-    question = f"Provide information about the medication {selected_medication}, and how the medicine will work based on the symptoms {symptoms} including indications, contraindications, side effects, and nursing considerations."
 
-    submit2 = form2.form_submit_button("Get Information")
-    if submit2:
+async def display_information2():
+    st.session_state["current_form"] = 3
+    form3 = st.form("Medication Information")
+    selected_medication = st.session_state["selected_medication"]
+    symptoms = st.session_state["symptoms"]
+    
+    
+    submit3 = form3.form_submit_button("Medication Information")
+    if submit3:
+        question = f"Provide information about the medication {symptoms},  and how the medicine will work based on the symptoms {selected_medication} including indications, contraindications, side effects, and nursing considerations."
         if question:
-            progress_bar = form2.progress(0, text="The AI co-pilot is processing the request, please wait...")
+            progress_bar = form3.progress(0, text="The AI  co-pilot is processing the request, please wait...")
             response = await generate_response(question, context)
-            form2.write("Response:")
-            form2.write(response)
+            form3.write("Response:")
+            form3.write(response)
 
             # update the progress bar
             for i in range(100):
                 # Update progress bar value
                 progress_bar.progress(i + 1)
                 # Simulate some time-consuming task (e.g., sleep)
-                await asyncio.sleep(0.01)
+                time.sleep(0.01)
             # Progress bar reaches 100% after the loop completes
-            form2.success("AI research co-pilot task completed!") 
-            form2.write("Would you like to ask another question?")  
-            form2.write("If yes, please refresh the browser.")  
+            form3.success("AI research co-pilot task completed!") 
+            form3.write("Would you like to ask another question?")  
+            form3.write("If yes, please refresh the browser.")  
         else:
-            form2.error("Please enter a prompt.")
+            form3.error("Please enter a prompt.")
+            
+
 
 # Run the app
 if __name__ == "__main__":
-    app()
+    import asyncio
+    asyncio.run(app())
