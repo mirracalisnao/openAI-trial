@@ -89,10 +89,10 @@ async def display_medication_form2():
     prompt = f"What are your symptoms? \n Based on your symptoms ({symptoms}), here are some medication options:"
     medications = await generate_response(prompt, context)
     options = await split_comma_separated_string(medications)
-    # selected_medication = form2.selectbox(
-    #     label="Choose a medication:",
-    #     options=medication_list,    
-    # )
+    selected_option = form2.selectbox(
+        label="Choose a medication:",
+        options=options,    
+    )
         
     submit2 = form2.form_submit_button("Get Information")
     
@@ -103,16 +103,15 @@ async def display_medication_form2():
 async def display_information3():
     st.session_state["current_form"] = 3
     form3 = st.form("Medication Information")
-    selected_medication = st.session_state["selected_medication"]
+    selected_option = st.session_state["selected_medication"]
     symptoms = st.session_state["symptoms"]
     
-    # Create the combobox (selectbox) with a descriptive label
-    selected_option = form3.selectbox(
-        label="Choose the Medicine:",
-        options=selected_medication,    
-    )
+    # # Create the combobox (selectbox) with a descriptive label
+    # selected_option = form3.selectbox(
+    #     label="Choose the Medicine:",
+    #     options=selected_medication,    
+    # )
 
-    
     submit3 = form3.form_submit_button("Medication Information")
     if submit3:
         question = f"For the symptoms {symptoms} and the research area {selected_option}, give me 3 research problems.  Provide the title, abstract and research objectives for each research problem."
