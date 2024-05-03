@@ -107,10 +107,6 @@ async def display_information3():
     # Progress bar reaches 100% after the loop completes
     form3.success("AI research co-pilot task completed!") 
 
-    done = form3.form_submit_button("Done")  # Add the submit button
-    if done:
-        st.session_state["current_form"] = 1  # Return to the main screen
-
 # Run the app
 if __name__ == "__main__":
     import asyncio
