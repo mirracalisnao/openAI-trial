@@ -55,7 +55,7 @@ async def display_symptoms_form1():
     
     # Display possible medications
     possible_medications = [
-        "None"
+        "None",
         "Paracetamol",
         "Ibuprofen",
         "Aspirin",
