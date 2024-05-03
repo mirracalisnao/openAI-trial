@@ -1,10 +1,9 @@
 import streamlit as st
 import openai
 import os
+import asyncio
 
 from openai import AsyncOpenAI
-from openai import OpenAI
-import time
 
 client = AsyncOpenAI(
     api_key=os.getenv("API_key")
@@ -120,7 +119,7 @@ async def display_information2():
                 # Update progress bar value
                 progress_bar.progress(i + 1)
                 # Simulate some time-consuming task (e.g., sleep)
-                time.sleep(0.01)
+                await asyncio.sleep(0.01)
             # Progress bar reaches 100% after the loop completes
             form2.success("AI research co-pilot task completed!") 
             form2.write("Would you like to ask another question?")  
@@ -128,10 +127,6 @@ async def display_information2():
         else:
             form2.error("Please enter a prompt.")
 
-            
-
-
 # Run the app
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(app())
+    app()
