@@ -33,7 +33,7 @@ async def app():
     if st.session_state["current_form"] == 1:
         await display_symptoms_form1()
     elif st.session_state["current_form"] == 2:
-        await display_information2()
+        await display_information3()
 
 async def display_symptoms_form1():
     form1 = st.form("Introduction")
@@ -80,23 +80,23 @@ async def display_symptoms_form1():
             else:
                 st.session_state["selected_medication"] = selected_medication  # Save selected medication
                 st.session_state["current_form"] = 2  # Move to the next form
-            await display_information2()  # Call the display_information3 function directly
+            await display_information3()  # Call the display_information3 function directly
         else:
             form1.warning("Please enter your symptoms.")       
 
-async def display_information2():
-    form2 = st.form("Medication Information")
+async def display_information3():
+    form3 = st.form("Medication Information")
     symptoms = st.session_state["symptoms"]
     selected_medication = st.session_state["selected_medication"]
     
-    form2.write(f"Symptoms: {symptoms}")
-    form2.write(f"Selected Medication: {selected_medication}")
+    form3.write(f"Symptoms: {symptoms}")
+    form3.write(f"Selected Medication: {selected_medication}")
     
     question = f"Provide information about the medication {selected_medication}, including indications, contraindications, side effects, and usage of the medication."
-    progress_bar = form2.progress(0, text="The AI co-pilot is processing the request, please wait...")
+    progress_bar = form3.progress(0, text="The AI co-pilot is processing the request, please wait...")
     response = await generate_response(question, context)
-    form2.write("Medication Information:")
-    form2.write(response)
+    form3.write("Medication Information:")
+    form3.write(response)
 
     # update the progress bar
     for i in range(100):
@@ -105,9 +105,9 @@ async def display_information2():
         # Simulate some time-consuming task (e.g., sleep)
         time.sleep(0.01)
     # Progress bar reaches 100% after the loop completes
-    form2.success("AI research co-pilot task completed!") 
+    form3.success("AI research co-pilot task completed!") 
 
-    restart = form2.form_submit_button("Restart")  # Add the submit button
+    restart = form3.form_submit_button("Restart")  # Add the submit button
     if restart:
         st.experimental_rerun()  # Reload the app
 
