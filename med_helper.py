@@ -109,7 +109,7 @@ async def display_information2():
 
     restart = form2.form_submit_button("Restart")  # Add the submit button
     if restart:
-        st.current_form()  # Reload the app
+        st.experimental_rerun()  # Reload the app
 
 # Run the app
 if __name__ == "__main__":
