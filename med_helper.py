@@ -13,7 +13,7 @@ context = """This app assists users in finding information about specific medica
 based on their symptoms. Please follow the prompts to proceed."""
 
 async def generate_response(question, context):
-    model = "gpt-4-0125-preview"
+    model = "gpt-3.5-turbo"
     completion = await client.chat.completions.create(model=model, 
         messages=[{"role": "user", "content": question}, 
                 {"role": "system", "content": context}])
