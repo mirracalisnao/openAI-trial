@@ -139,7 +139,7 @@ async def display_information3(possible_medications, symptoms, age):
     form3.write(f"Age: {age}")
     form3.write(f"Selected Medication: {selected_medication}")
     
-    question = f"Provide information about the medication {selected_medication}, for a {age}-year-old with {symptoms}, including indications, contraindications, side effects, and usage of the medication."
+    question = f"Provide information about the medication {selected_medication}, for a {age}-year-old with {symptoms}, including A.indications, B.contraindications, C.side effects, and D.Usage of the medication."
     progress_bar = form3.progress(0, text="The AI co-pilot is processing the request, please wait...")
     response = await generate_response(question, context)
     form3.write("Medication Information:")
